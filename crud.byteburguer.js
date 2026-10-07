@@ -460,7 +460,7 @@ function alterarQuantidade() {
 ///////////////////////////////////////
 
 function finalizarPedido() {
-    
+
 }
 
 
@@ -629,7 +629,7 @@ function mostrarMenu() {
 
         } else if (opcao === "11") {
 
-            alterarQuantidade()
+            alterarQuantidades()
 
         } else if (opcao === "12") {
 
