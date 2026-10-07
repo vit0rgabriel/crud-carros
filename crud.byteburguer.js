@@ -422,7 +422,7 @@ function removerItemPedido() {
     });
 };
 
-function alterarQuantidade() {
+function alterarQuantidades() {
     rl.question("Digite o ID do Pedido: ", (idPedidoStr) => {
         rl.question("Digite o ID do Produto: ", (idProdutoStr) => {
             rl.question("Digite a nova quantidade: ", (quantidade) => {
