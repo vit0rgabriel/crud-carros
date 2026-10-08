@@ -353,9 +353,9 @@ function visualizarPedido() {
 
         console.log(
             "\n===============================",
-            "\n PEDIDO: ", pedidoEncontrado.id, 
+            "\n PEDIDO: ", pedidoEncontrado.id,
             "\n CLIENTE:", pedidoEncontrado.cliente,
-            "\n STATUS:", pedidoEncontrado.status, 
+            "\n STATUS:", pedidoEncontrado.status,
             "\n==============================="
         );
 
@@ -363,9 +363,9 @@ function visualizarPedido() {
             let itemAtual = pedidoEncontrado.itens[i];
 
             console.log(
-                "Produto:", itemAtual.nome, 
-                "\n Quantidade:", itemAtual.quantidade, 
-                "\n Preço: R$", itemAtual.precoUnitario, 
+                "Produto:", itemAtual.nome,
+                "\n Quantidade:", itemAtual.quantidade,
+                "\n Preço: R$", itemAtual.precoUnitario,
                 "\n Subtotal: R$", itemAtual.subtotal
             );
             console.log("-------------------------------");
@@ -375,7 +375,7 @@ function visualizarPedido() {
     });
 }
 
-        
+
 
 function removerItemPedido() {
     rl.question("Digite o ID do Pedido: ", (idPedido) => {
@@ -476,9 +476,9 @@ function finalizarPedido() {
 
 
     rl.question("Digite o ID do pedido que deseja finalizar: ", (idPedido) => {
-        
+
         let Id = +idPedido;
-        let pedidoEncontrado = null; 
+        let pedidoEncontrado = null;
 
         for (let i = 0; i < pedidos.length; i++) {
             if (pedidos[i].id === Id) {
@@ -525,6 +525,39 @@ function finalizarPedido() {
         mostrarMenu();
     });
 };
+
+
+
+function cancelarPedido() {
+    rl.question("Digite o id do pedido que quer cancelar: ", (idPedido) => {
+        let id = +idPedido
+
+        let pedidoEncontrado = null
+
+        for (let i = 0; i < pedidos.length; i++) {
+            if (pedidos[i].id === id) {
+                pedidoEncontrado = pedidos[i]
+            }
+            if (pedidoEncontrado === null) {
+                console.log("O pedido não foi encontrado");
+                mostrarMenu();
+                return;
+            }
+            if (pedidoEncontrado.status !== "cancelado") {
+                console.log("Esse pedido já foi cancelado")
+            }
+            if (pedidoEncontrado.status === "finalizado") {
+                console.log("Este pedido já foi finalizado")
+            }
+        }
+        pedidoEncontrado.status = "cancelado"
+        console.log("Pedido cancelado com sucesso.")
+        mostrarMenu()
+
+    })
+
+}
+
 
 
 ///////////////////////////////////////
