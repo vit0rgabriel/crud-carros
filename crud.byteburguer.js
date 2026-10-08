@@ -321,7 +321,7 @@ function adicionarProdutoAoPedido() {
                     subtotal: subtotal
                 }
 
-                pedidoEncontrado.itens.push(produtoEncontrado)
+                pedidoEncontrado.itens.push(item)
 
                 console.log("Item adicionado com sucesso.")
 
@@ -334,36 +334,48 @@ function adicionarProdutoAoPedido() {
 
 function visualizarPedido() {
     rl.question("Digite o id do pedido: ", (idPedido) => {
-        rl.question("Digite o nome do cliente: ", (cliente) => {
-            rl.question("Digite a quantidade:", (quantidade) => {
 
-                Id = +idPedido
-                let pedidoEncontrado = null
-                for (let i = 0; i < pedidos.length; i++) {
-                    if (pedidos[i].id === Id) {
-                        pedidoEncontrado = pedidos[i];
-                    }
-                }
-                if (pedidoEncontrado === null) {
-                    console.log("Nenhum Pedido encontrado")
+        let Id = +idPedido;
+        let pedidoEncontrado = null;
 
-                    mostrarMenu();
+        for (let i = 0; i < pedidos.length; i++) {
+            if (pedidos[i].id === Id) {
+                pedidoEncontrado = pedidos[i];
+            }
+        }
 
-                    return;
-                }
+        if (pedidoEncontrado === null) {
+            console.log("Nenhum Pedido encontrado");
+            mostrarMenu();
+            return;
+        }
 
-                console.log("\n===============================", "\n PEDIDO: ", pedidoEncontrado.id, "\n CLIENTE", pedidoEncontrado.cliente, "\n STATUS", pedidoEncontrado.status, "\n===============================");
 
-                for (let i = 0; i < pedidoEncontrado.item.length; i++) {
-                    console.log(item[i].nome, "\n quantidade", item[i].quantidade, "\n Preço: R$ ", item[i].precoUnitario, "\n Subtotal:", item[i].subtotal);
-                }
+        console.log(
+            "\n===============================",
+            "\n PEDIDO: ", pedidoEncontrado.id, 
+            "\n CLIENTE:", pedidoEncontrado.cliente,
+            "\n STATUS:", pedidoEncontrado.status, 
+            "\n==============================="
+        );
 
-                mostrarMenu()
+        for (let i = 0; i < pedidoEncontrado.itens.length; i++) {
+            let itemAtual = pedidoEncontrado.itens[i];
 
-            });
-        });
+            console.log(
+                "Produto:", itemAtual.nome, 
+                "\n Quantidade:", itemAtual.quantidade, 
+                "\n Preço: R$", itemAtual.precoUnitario, 
+                "\n Subtotal: R$", itemAtual.subtotal
+            );
+            console.log("-------------------------------");
+        }
+
+        mostrarMenu();
     });
-};
+}
+
+        
 
 function removerItemPedido() {
     rl.question("Digite o ID do Pedido: ", (idPedido) => {
@@ -460,8 +472,58 @@ function alterarQuantidade() {
 ///////////////////////////////////////
 
 function finalizarPedido() {
+    console.log("\n--- Finalizar Pedido ---");
 
-}
+    rl.question("Digite o ID do pedido que deseja finalizar: ", (idPedido) => {
+        
+        let Id = +idPedido;
+        let pedidoEncontrado = null; 
+
+        for (let i = 0; i < pedidos.length; i++) {
+            if (pedidos[i].id === Id) {
+                pedidoEncontrado = pedidos[i];
+            }
+        }
+
+        if (pedidoEncontrado === null) {
+            console.log("Erro: O pedido não existe!");
+            mostrarMenu();
+            return;
+        }
+
+        if (pedidoEncontrado.status !== "aberto") {
+            console.log("Erro: Este pedido não está aberto.");
+            mostrarMenu();
+            return;
+        }
+
+        if (pedidoEncontrado.itens.length === 0) {
+            console.log("Erro: O pedido não possui nenhum item para ser finalizado.");
+            mostrarMenu();
+            return;
+        }
+
+        pedidoEncontrado.status = "finalizado";
+
+        let totalCalculado = 0;
+        for (let i = 0; i < pedidoEncontrado.itens.length; i++) {
+            let itemAtual = pedidoEncontrado.itens[i];
+            totalCalculado = totalCalculado + itemAtual.subtotal;
+        }
+
+        pedidoEncontrado.total = totalCalculado;
+
+
+        console.log("============================");
+        console.log("PEDIDO FINALIZADO");
+        console.log("============================");
+        console.log("Cliente:", pedidoEncontrado.cliente);
+        console.log("Total: R$", totalCalculado);
+        console.log("Obrigado pela compra!");
+
+        mostrarMenu();
+    });
+};
 
 
 ///////////////////////////////////////
@@ -632,8 +694,7 @@ function mostrarMenu() {
             alterarQuantidades()
 
         } else if (opcao === "12") {
-
-
+            finalizarPedido()
 
         } else if (opcao === "13") {
 
