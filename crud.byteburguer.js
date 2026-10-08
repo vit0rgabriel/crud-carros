@@ -472,7 +472,8 @@ function alterarQuantidade() {
 ///////////////////////////////////////
 
 function finalizarPedido() {
-    console.log("\n--- Finalizar Pedido ---");
+    console.log("\n--- Finalizar Pedido ---")
+
 
     rl.question("Digite o ID do pedido que deseja finalizar: ", (idPedido) => {
         
